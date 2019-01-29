@@ -16,9 +16,7 @@
         ".googlevideo.com"
     ],
     "GAE_APPIDS": [
-        "mimvicbbs",
-        "mimvicbbs1",
-        "mimvicbbs2"
+
     ],
     "GAE_PASSWORD": "",
     "GAE_VALIDATE": 0,
