@@ -16,11 +16,10 @@
         ".googlevideo.com"
     ],
     "GAE_APPIDS": [
-
     ],
     "GAE_PASSWORD": "",
     "GAE_VALIDATE": 0,
-    "JS_MAXSIZE": 0,
+    "JS_MAXSIZE": 2097152, 
     "PROXY_ENABLE": 0,
     "PROXY_HOST": "",
     "PROXY_PASSWD": "",
@@ -47,11 +46,11 @@
     "connect_force_http1": 0,
     "connect_force_http2": 0,
     "connection_pool_min": 1,
-    "connect_receive_buffer": 384, 
+    "connect_receive_buffer": 2097152, 
     "dispather_max_idle_workers": 15,
-    "dispather_max_workers": 50,
-    "dispather_min_idle_workers": 3,
-    "dispather_min_workers": 20,
+    "dispather_max_workers": 90,
+    "dispather_min_idle_workers": 1,
+    "dispather_min_workers": 50,
     "dispather_score_factor": 1,
     "dispather_work_max_score": 1000,
     "dispather_work_min_idle_time": 0,
@@ -108,7 +107,7 @@
     "http2_timeout_active": 0,
     "https_connection_pool_max": 10,
     "https_connection_pool_min": 0,
-    "https_keep_alive": 15,
+    "https_keep_alive": 5,
     "https_max_connect_thread": 10,
     "https_new_connect_num": 3,
     "ip_connect_interval": 5,
@@ -118,10 +117,10 @@
     "long_fail_connect_interval": 180,
     "long_fail_threshold": 300,
     "max_connect_thread": 1,
-    "max_good_ip_num": 4000,
+    "max_good_ip_num": 2000,
     "max_links_per_ip": 1,
-    "max_scan_ip_thread_num": 100,
-    "max_task_num": 80,
+    "max_scan_ip_thread_num": 10,
+    "max_task_num": 100,
     "min_intermediate_CA": 2,
 
     "modules": {
@@ -149,6 +148,6 @@
     "show_state_debug": 0,
     "ssl_first_use_timeout": 5,
     "support_http2": 1,
-    "target_handshake_time": 600,
+    "target_handshake_time": 200,
     "use_ipv6": "force_ipv6"
 }
