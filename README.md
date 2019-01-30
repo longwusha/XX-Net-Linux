@@ -5,8 +5,8 @@ Usage:
 
     git clone https://github.com/miketwes/XX-Net-Linux.git -b master
 
-    replace $HOME/pip2_lib/hyper/packages/hyperframe/frame.py with replace/frame.py
-    replace $HOME/pip2_lib/hyper/common/bufsocket.py with replace/bufsocket.py
+    #replace $HOME/pip2_lib/hyper/packages/hyperframe/frame.py with replace/frame.py
+    #replace $HOME/pip2_lib/hyper/common/bufsocket.py with replace/bufsocket.py
 
     export PYTHONPATH=$PYTHONPATH:$HOME/pip2_lib
     export PIP_CONFIG_FILE=$HOME/.pip2/pip2.conf
@@ -20,7 +20,7 @@ Usage:
     network.proxy.http 127.0.0.1
     network.proxy.http_port 8087  
     
-    after terminate proxy.py
+    #after terminate proxy.py
     
     find . -type f -name "*.pyc"  -exec rm {} \;
     pkill -9 python && pkill -9 python2 &&  pkill -9 python2.7
