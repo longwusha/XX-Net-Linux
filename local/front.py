@@ -146,7 +146,7 @@ class DirectFront(object):
     def get_dispatcher(self, host):
         if host not in self.dispatchs:
             http_dispatcher = HttpsDispatcher(
-                logger, direct_config, front.ip_manager, self.connect_manager)
+                logger, front.config, front.ip_manager, self.connect_manager)
             self.dispatchs[host] = http_dispatcher
 
         return self.dispatchs[host]
