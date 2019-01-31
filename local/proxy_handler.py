@@ -180,7 +180,8 @@ class GAEProxyHandler(simple_http_server.HttpServerHandler):
                 return
             except Exception as e:
                 if e.args[0] not in (errno.ECONNABORTED, errno.ECONNRESET):
-                    logger.exception('ssl.wrap_socket(self.connection=%r) failed: %s path:%s, errno:%s', self.connection, e, self.path, e.args[0])
+                    pass
+                    #logger.exception('ssl.wrap_socket(self.connection=%r) failed: %s path:%s, errno:%s', self.connection, e, self.path, e.args[0])
                 return
 
             self.__realwfile = self.wfile
