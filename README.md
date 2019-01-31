@@ -15,7 +15,7 @@ Usage:
     # chromium
     chromium --proxy-server="http://127.0.0.1:8087"
     
-    # Firefoxabout:config
+    # Firefox about:config
     network.proxy.type 1     
     network.proxy.http 127.0.0.1
     network.proxy.http_port 8087  
@@ -26,4 +26,4 @@ Usage:
     pkill -9 python && pkill -9 python2 &&  pkill -9 python2.7
     sudo /etc/init.d/miredo stop
 
-Note: all python2 libs are latest version and installed in $HOME/pip2_lib by pip2.
+Note: all XX-Net related python2 libs are latest version and installed in $HOME/pip2_lib by pip2.
