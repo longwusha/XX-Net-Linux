@@ -10,10 +10,11 @@ from http_common import *
 
 from hyper.common.bufsocket import BufferedSocket
 
-from hyper.packages.hyperframe.frame import (
+#hyper.packages
+from hyperframe.frame import (
     FRAMES, DataFrame, HeadersFrame, PushPromiseFrame, RstStreamFrame,
     SettingsFrame, Frame, WindowUpdateFrame, GoAwayFrame, PingFrame,
-    BlockedFrame, FRAME_MAX_ALLOWED_LEN, FRAME_MAX_LEN
+    FRAME_MAX_ALLOWED_LEN, FRAME_MAX_LEN
 )
 from http2_stream import Stream
 from hyper.http20.window import BaseFlowControlManager
@@ -113,7 +114,7 @@ class Http2Worker(HttpWorker):
         # will send to remote using Setting Frame
         self.local_settings = {
             SettingsFrame.INITIAL_WINDOW_SIZE: 16 * 1024 * 1024,
-            SettingsFrame.SETTINGS_MAX_FRAME_SIZE: 256 * 1024
+            SettingsFrame.MAX_FRAME_SIZE: 256 * 1024
         }
         self.local_connection_initial_windows = 32 * 1024 * 1024
         self.local_window_manager = FlowControlManager(self.local_connection_initial_windows)
@@ -121,7 +122,7 @@ class Http2Worker(HttpWorker):
         # changed by server, with SettingFrame
         self.remote_settings = {
             SettingsFrame.INITIAL_WINDOW_SIZE: DEFAULT_WINDOW_SIZE,
-            SettingsFrame.SETTINGS_MAX_FRAME_SIZE: DEFAULT_MAX_FRAME,
+            SettingsFrame.MAX_FRAME_SIZE: DEFAULT_MAX_FRAME,
             SettingsFrame.MAX_CONCURRENT_STREAMS: 100
         }
 
@@ -162,7 +163,7 @@ class Http2Worker(HttpWorker):
                         self._send_cb, self._close_stream_cb, self.encode_header, self.decoder,
                         FlowControlManager(self.local_settings[SettingsFrame.INITIAL_WINDOW_SIZE]),
                         self.remote_settings[SettingsFrame.INITIAL_WINDOW_SIZE],
-                        self.remote_settings[SettingsFrame.SETTINGS_MAX_FRAME_SIZE])
+                        self.remote_settings[SettingsFrame.MAX_FRAME_SIZE])
             self.streams[stream_id] = stream
             stream.start_request()
 
@@ -244,7 +245,7 @@ class Http2Worker(HttpWorker):
         f = SettingsFrame(0)
         f.settings[SettingsFrame.ENABLE_PUSH] = 0
         f.settings[SettingsFrame.INITIAL_WINDOW_SIZE] = self.local_settings[SettingsFrame.INITIAL_WINDOW_SIZE]
-        f.settings[SettingsFrame.SETTINGS_MAX_FRAME_SIZE] = self.local_settings[SettingsFrame.SETTINGS_MAX_FRAME_SIZE]
+        f.settings[SettingsFrame.MAX_FRAME_SIZE] = self.local_settings[SettingsFrame.MAX_FRAME_SIZE]
         self._send_cb(f)
 
         # update local connection windows size
@@ -428,15 +429,16 @@ class Http2Worker(HttpWorker):
 
             # If an error occured, try to read the error description from
             # code registry otherwise use the frame's additional data.
-            error_string = frame._extra_info()
+            #error_string = frame._extra_info()
             time_cost = time.time() - self.last_recv_time
             if frame.additional_data != "session_timed_out":
-                self.logger.warn("goaway:%s, t:%d", error_string, time_cost)
+                pass
+                #self.logger.warn("goaway:%s, t:%d", error_string, time_cost)
 
-            self.close("GoAway:%s inactive time:%d" % (error_string, time_cost))
+            self.close("conn close")
 
-        elif frame.type == BlockedFrame.type:
-            self.logger.warn("%s get BlockedFrame", self.ip)
+        #elif frame.type == BlockedFrame.type:self.logger.warn("%s get BlockedFrame", self.ip)
+            
         elif frame.type in FRAMES:
             # This frame isn't valid at this point.
             #raise ValueError("Unexpected frame %s." % frame)
@@ -463,8 +465,8 @@ class Http2Worker(HttpWorker):
 
             self.remote_settings[SettingsFrame.INITIAL_WINDOW_SIZE] = newsize
 
-        if SettingsFrame.SETTINGS_MAX_FRAME_SIZE in frame.settings:
-            new_size = frame.settings[SettingsFrame.SETTINGS_MAX_FRAME_SIZE]
+        if SettingsFrame.MAX_FRAME_SIZE in frame.settings:
+            new_size = frame.settings[SettingsFrame.MAX_FRAME_SIZE]
             if not (FRAME_MAX_LEN <= new_size <= FRAME_MAX_ALLOWED_LEN):
                 self.logger.error("%s Frame size %d is outside of allowed range", self.ip, new_size)
 
@@ -474,7 +476,7 @@ class Http2Worker(HttpWorker):
                 #raise ConnectionError(error_string)
                 return
 
-            self.remote_settings[SettingsFrame.SETTINGS_MAX_FRAME_SIZE] = new_size
+            self.remote_settings[SettingsFrame.MAX_FRAME_SIZE] = new_size
 
             for stream in self.streams.values():
                 stream.max_frame_size += new_size
