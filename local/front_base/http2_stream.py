@@ -17,9 +17,9 @@ the stream by the endpoint that initiated the stream.
 
 import threading
 from hyper.common.headers import HTTPHeaderMap
-from hyper.packages.hyperframe.frame import (
+from hyperframe.frame import (
     FRAME_MAX_LEN, FRAMES, HeadersFrame, DataFrame, PushPromiseFrame,
-    WindowUpdateFrame, ContinuationFrame, BlockedFrame, RstStreamFrame
+    WindowUpdateFrame, ContinuationFrame, RstStreamFrame
 )
 from hyper.http20.exceptions import ProtocolError, StreamResetError
 from hyper.http20.util import h2_safe_headers
@@ -242,13 +242,7 @@ class Stream(object):
                     w = WindowUpdateFrame(self.stream_id)
                     w.window_increment = increment
                     self._send_cb(w)
-        elif frame.type == BlockedFrame.type:
-            # If we've been blocked we may want to fixup the window.
-            increment = self.receive_window_manager._blocked()
-            if increment:
-                w = WindowUpdateFrame(self.stream_id)
-                w.window_increment = increment
-                self._send_cb(w)
+
         elif frame.type == RstStreamFrame.type:
             # Rest Frame send from server is not define in RFC
             inactive_time = time.time() - self.connection.last_recv_time
