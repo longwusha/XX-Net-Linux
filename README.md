@@ -5,7 +5,6 @@ Usage:
 
     git clone https://github.com/miketwes/XX-Net-Linux.git -b master
 
-    #replace $HOME/pip2_lib/hyper/packages/hyperframe/frame.py with replace/frame.py
     #replace $HOME/pip2_lib/hyper/common/bufsocket.py with replace/bufsocket.py
 
     export PYTHONPATH=$PYTHONPATH:$HOME/pip2_lib
