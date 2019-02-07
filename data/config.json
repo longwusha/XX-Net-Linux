@@ -1,5 +1,4 @@
 {
-  "max_scan_ip_thread_num": 10, 
     "AUTORANGE_MAXBUFFERSIZE": 548576,
     "AUTORANGE_MAXSIZE": 548576,
     "AUTORANGE_THREADS": 5,
